@@ -1,12 +1,16 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+// 1. Import your navbar component (adjust path as needed)
+import { Navbar } from './components/navbar/navbar'; 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  // 2. Add Navbar to this array
+  imports: [RouterOutlet, Navbar], 
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrls: ['./app.css']
 })
-export class App {
-  protected readonly title = signal('ai-study-assistant');
+export class AppComponent {
+  title = 'ai-study-assistant';
 }

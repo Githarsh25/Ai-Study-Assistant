@@ -1,0 +1,71 @@
+<div class="chat-page">
+
+  <!-- Warning if no PDF uploaded -->
+  <div class="no-pdf-warning" *ngIf="noPdfWarning">
+    <p>⚠️ No notes uploaded yet.</p>
+    <a routerLink="/">← Go to Home to upload a PDF first</a>
+  </div>
+
+  <div class="chat-wrapper" *ngIf="!noPdfWarning">
+
+    <!-- Header -->
+    <div class="chat-header">
+      <div>
+        <h2>💬 Chat with Your Notes</h2>
+        <span class="pdf-name">📄 {{ pdfService.getFileName() }}</span>
+      </div>
+      <button class="btn-clear" (click)="clearChat()">🗑 Clear Chat</button>
+    </div>
+
+    <!-- Messages -->
+    <div class="chat-window" #chatWindow>
+
+      <div
+        *ngFor="let msg of messages"
+        class="message-row"
+        [ngClass]="msg.role === 'user' ? 'user-row' : 'ai-row'"
+      >
+        <div
+          class="message-bubble"
+          [ngClass]="msg.role === 'user' ? 'user-bubble' : 'ai-bubble'"
+        >
+          <span class="avatar">{{ msg.role === 'user' ? '🧑' : '🤖' }}</span>
+          <div class="message-text">
+            <p>{{ msg.text }}</p>
+            <span class="timestamp">{{ msg.timestamp | date:'shortTime' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Typing indicator -->
+      <div class="message-row ai-row" *ngIf="isLoading">
+        <div class="message-bubble ai-bubble">
+          <span class="avatar">🤖</span>
+          <div class="typing-indicator">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Input Area -->
+    <div class="chat-input-area">
+      <textarea
+        [(ngModel)]="userInput"
+        (keydown)="onKeyDown($event)"
+        placeholder="Ask a question about your notes... (Enter to send)"
+        [disabled]="isLoading"
+        rows="2"
+      ></textarea>
+      <button
+        class="btn-send"
+        (click)="sendMessage()"
+        [disabled]="!userInput.trim() || isLoading"
+      >
+        ➤
+      </button>
+    </div>
+
+  </div>
+</div>

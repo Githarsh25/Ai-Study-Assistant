@@ -1,0 +1,20 @@
+<nav class="navbar">
+  <div class="nav-brand">
+    🤖 <span>AI Study Assistant</span>
+  </div>
+
+  <div class="nav-links">
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+    <a routerLink="/chat" routerLinkActive="active">Chat</a>
+    <a routerLink="/quiz" routerLinkActive="active">Quiz</a>
+    <a routerLink="/flashcards" routerLinkActive="active">Flashcards</a>
+  </div>
+
+  <div class="streak-badge" [title]="'Longest streak: ' + longestStreak + ' days'">
+    🔥 {{ streakCount }} Day Streak
+  </div>
+</nav>
+
+<div class="milestone-popup" *ngIf="showMilestone">
+  {{ milestoneMessage }}
+</div>

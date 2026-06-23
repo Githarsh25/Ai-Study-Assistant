@@ -1,0 +1,48 @@
+<div class="upload-container">
+
+  <!-- If a PDF is already uploaded, show a status banner -->
+  <div class="loaded-banner" *ngIf="pdfAlreadyLoaded">
+    <span>📄 Currently loaded: <strong>{{ loadedFileName }}</strong></span>
+    <button class="btn-clear" (click)="onClear()">✕ Remove</button>
+  </div>
+
+  <div class="upload-card">
+    <h2>📂 Upload Your Notes</h2>
+    <p class="subtitle">Upload a PDF of your study notes to get started</p>
+
+    <!-- File Input -->
+    <div class="file-input-wrapper">
+      <input
+        type="file"
+        accept=".pdf"
+        id="pdfInput"
+        (change)="onFileSelected($event)"
+        [disabled]="isLoading"
+      />
+      <label for="pdfInput" class="file-label">
+        {{ selectedFile ? selectedFile.name : '📎 Choose a PDF file' }}
+      </label>
+    </div>
+
+    <!-- Upload Button -->
+    <button
+      class="btn-upload"
+      (click)="onUpload()"
+      [disabled]="!selectedFile || isLoading"
+    >
+      <span *ngIf="!isLoading">⬆ Upload & Extract Text</span>
+      <span *ngIf="isLoading">⏳ Processing...</span>
+    </button>
+
+    <!-- Success Message -->
+    <div class="success-msg" *ngIf="successMessage">
+      {{ successMessage }}
+    </div>
+
+    <!-- Error Message -->
+    <div class="error-msg" *ngIf="errorMessage">
+      ⚠️ {{ errorMessage }}
+    </div>
+  </div>
+
+</div>

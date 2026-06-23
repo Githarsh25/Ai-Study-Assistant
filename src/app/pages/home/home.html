@@ -1,0 +1,43 @@
+<div class="home-container">
+
+  <div class="hero">
+    <h1>🤖 AI Study Assistant</h1>
+    <p>Upload your notes. Chat with AI. Ace your exams.</p>
+  </div>
+
+  <app-upload></app-upload>
+
+  <!-- Shown after PDF is uploaded -->
+  <div class="features-section" *ngIf="pdfService.hasText()">
+    <h3>What would you like to do?</h3>
+    <div class="feature-cards">
+      <a routerLink="/chat" class="feature-card chat">
+        <span class="feature-icon">💬</span>
+        <span class="feature-title">Chat with Notes</span>
+        <span class="feature-desc">Ask any question about your PDF</span>
+      </a>
+      <a routerLink="/quiz" class="feature-card quiz">
+        <span class="feature-icon">🧠</span>
+        <span class="feature-title">Take a Quiz</span>
+        <span class="feature-desc">Test your knowledge with AI questions</span>
+      </a>
+      <a routerLink="/flashcards" class="feature-card flashcards">
+        <span class="feature-icon">🃏</span>
+        <span class="feature-title">Flashcards</span>
+        <span class="feature-desc">Review key terms and definitions</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Shown before upload -->
+  <div class="preview-section" *ngIf="!pdfService.hasText()">
+    <h3>What you can do</h3>
+    <div class="preview-cards">
+      <div class="preview-card">💬 <span>Ask questions from your notes</span></div>
+      <div class="preview-card">🧠 <span>Generate quizzes automatically</span></div>
+      <div class="preview-card">🃏 <span>Create flashcards instantly</span></div>
+      <div class="preview-card">🔥 <span>Track your study streak</span></div>
+    </div>
+  </div>
+
+</div>

@@ -1,1 +1,104 @@
-<p>quiz works!</p>
+<div class="quiz-page">
+
+  <div class="no-pdf-warning" *ngIf="!pdfService.hasText()">
+    <p>⚠️ No notes uploaded yet.</p>
+    <a routerLink="/">← Go to Home to upload a PDF first</a>
+  </div>
+
+  <div class="quiz-wrapper" *ngIf="pdfService.hasText()">
+
+    <!-- SETUP -->
+    <div class="setup-card" *ngIf="quizState === 'setup'">
+      <h2>🧠 Quiz Generator</h2>
+      <p class="subtitle">Generate a quiz based on your uploaded notes</p>
+      <p class="pdf-label">📄 {{ pdfService.getFileName() }}</p>
+
+      <div class="count-selector">
+        <label>How many questions?</label>
+        <div class="count-buttons">
+          <button
+            *ngFor="let n of [5, 10, 15]"
+            [ngClass]="{'active': questionCount === n}"
+            (click)="questionCount = n"
+          >{{ n }}</button>
+        </div>
+      </div>
+
+      <button class="btn-primary" (click)="generateQuiz()" [disabled]="isLoading">
+        <span *ngIf="!isLoading">⚡ Generate Quiz</span>
+        <span *ngIf="isLoading">⏳ Generating...</span>
+      </button>
+
+      <div class="error-msg" *ngIf="errorMessage">⚠️ {{ errorMessage }}</div>
+    </div>
+
+    <!-- ACTIVE -->
+    <div class="active-quiz" *ngIf="quizState === 'active'">
+
+      <div class="quiz-header">
+        <h2>🧠 Quiz</h2>
+        <span class="progress">
+          {{ selectedAnswers.filter(a => a !== '').length }} / {{ questions.length }} answered
+        </span>
+      </div>
+
+      <div class="question-card" *ngFor="let q of questions; let i = index">
+        <p class="question-number">Question {{ i + 1 }} of {{ questions.length }}</p>
+        <p class="question-text">{{ q.question }}</p>
+        <div class="options">
+          <button
+            *ngFor="let option of q.options"
+            class="option-btn"
+            [ngClass]="{'selected': selectedAnswers[i] === option}"
+            (click)="selectAnswer(i, option)"
+          >{{ option }}</button>
+        </div>
+      </div>
+
+      <button
+        class="btn-primary submit-btn"
+        (click)="submitQuiz()"
+        [disabled]="!allAnswered"
+      >✅ Submit Quiz</button>
+      <p class="submit-hint" *ngIf="!allAnswered">Answer all questions to submit</p>
+
+    </div>
+
+    <!-- RESULT -->
+    <div class="result-card" *ngIf="quizState === 'result'">
+
+      <div class="score-circle" [ngClass]="{
+        'excellent': scorePercentage === 100,
+        'good': scorePercentage >= 60 && scorePercentage < 100,
+        'poor': scorePercentage < 60
+      }">
+        <span class="score-number">{{ score }}/{{ questions.length }}</span>
+        <span class="score-pct">{{ scorePercentage }}%</span>
+      </div>
+
+      <p class="score-message">{{ scoreMessage }}</p>
+
+      <div class="review-section">
+        <h3>📋 Answer Review</h3>
+        <div class="review-card" *ngFor="let q of questions; let i = index">
+          <p class="review-question">{{ i + 1 }}. {{ q.question }}</p>
+          <p class="your-answer" [ngClass]="selectedAnswers[i] === q.correctAnswer ? 'correct' : 'wrong'">
+            Your answer: {{ selectedAnswers[i] }}
+            {{ selectedAnswers[i] === q.correctAnswer ? '✅' : '❌' }}
+          </p>
+          <p class="correct-answer" *ngIf="selectedAnswers[i] !== q.correctAnswer">
+            Correct answer: {{ q.correctAnswer }}
+          </p>
+          <p class="explanation">💡 {{ q.explanation }}</p>
+        </div>
+      </div>
+
+      <div class="result-actions">
+        <button class="btn-secondary" (click)="retakeQuiz()">🔁 Retake</button>
+        <button class="btn-primary" (click)="resetQuiz()">🆕 New Quiz</button>
+      </div>
+
+    </div>
+
+  </div>
+</div>

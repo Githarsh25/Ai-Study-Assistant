@@ -1,6 +1,6 @@
 <div class="upload-container">
 
-  <!-- If a PDF is already uploaded, show a status banner -->
+  <!-- Already loaded banner -->
   <div class="loaded-banner" *ngIf="pdfAlreadyLoaded">
     <span>📄 Currently loaded: <strong>{{ loadedFileName }}</strong></span>
     <button class="btn-clear" (click)="onClear()">✕ Remove</button>
@@ -24,7 +24,7 @@
       </label>
     </div>
 
-    <!-- Upload Button -->
+    <!-- Upload Button — only shows when a file is selected and not loading -->
     <button
       class="btn-upload"
       (click)="onUpload()"
@@ -43,6 +43,6 @@
     <div class="error-msg" *ngIf="errorMessage">
       ⚠️ {{ errorMessage }}
     </div>
-  </div>
 
+  </div>
 </div>

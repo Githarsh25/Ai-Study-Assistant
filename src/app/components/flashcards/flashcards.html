@@ -1,1 +1,78 @@
-<p>flashcards works!</p>
+<div class="flashcards-page">
+
+  <div class="no-pdf-warning" *ngIf="!pdfService.hasText()">
+    <p>⚠️ No notes uploaded yet.</p>
+    <a routerLink="/">← Go to Home to upload a PDF first</a>
+  </div>
+
+  <div class="flashcards-wrapper" *ngIf="pdfService.hasText()">
+
+    <!-- Setup -->
+    <div class="setup-card" *ngIf="!isGenerated">
+      <h2>🃏 Flashcard Generator</h2>
+      <p class="subtitle">Generate flashcards from your uploaded notes</p>
+      <p class="pdf-label">📄 {{ pdfService.getFileName() }}</p>
+
+      <button class="btn-primary" (click)="generateFlashcards()" [disabled]="isLoading">
+        <span *ngIf="!isLoading">✨ Generate 10 Flashcards</span>
+        <span *ngIf="isLoading">⏳ Generating...</span>
+      </button>
+
+      <div class="error-msg" *ngIf="errorMessage">⚠️ {{ errorMessage }}</div>
+    </div>
+
+    <!-- Viewer -->
+    <div class="viewer" *ngIf="isGenerated">
+
+      <div class="viewer-header">
+        <h2>🃏 Flashcards</h2>
+        <div class="header-right">
+          <span class="card-count">{{ currentIndex + 1 }} / {{ flashcards.length }}</span>
+          <button class="btn-reset" (click)="reset()">🔄 Regenerate</button>
+        </div>
+      </div>
+
+      <!-- Flip Card -->
+      <div class="card-container" (click)="flipCard()">
+        <div class="flip-card" [ngClass]="{'flipped': isFlipped}">
+
+          <div class="card-face card-front">
+            <span class="card-label">TERM</span>
+            <p class="card-content">{{ currentCard.term }}</p>
+            <span class="flip-hint">Click to reveal definition →</span>
+          </div>
+
+          <div class="card-face card-back">
+            <span class="card-label">DEFINITION</span>
+            <p class="card-content">{{ currentCard.definition }}</p>
+            <span class="flip-hint">← Click to see term</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="nav-buttons">
+        <button class="btn-nav" (click)="prevCard()" [disabled]="currentIndex === 0">
+          ← Previous
+        </button>
+        <button class="btn-nav" (click)="nextCard()" [disabled]="currentIndex === flashcards.length - 1">
+          Next →
+        </button>
+      </div>
+
+      <!-- Dot Indicators -->
+      <div class="dot-indicators">
+        <span
+          *ngFor="let card of flashcards; let i = index"
+          class="dot"
+          [ngClass]="{'active': i === currentIndex}"
+          (click)="goToCard(i)"
+        ></span>
+      </div>
+
+      <p class="keyboard-hint">💡 Tip: Click the card to flip it</p>
+
+    </div>
+  </div>
+</div>

@@ -61,14 +61,15 @@ export class Chat implements OnInit, AfterViewChecked {
         this.messages.push({ role: 'ai', text: response.answer, timestamp: new Date() });
         this.isLoading = false;
       },
-      error: () => {
-        this.messages.push({
-          role: 'ai',
-          text: '⚠️ Something went wrong. Please try again.',
-          timestamp: new Date()
-        });
-        this.isLoading = false;
-      }
+      error: (err) => {
+  const msg = err.error?.error || 'Something went wrong. Please try again.';
+  this.messages.push({
+    role: 'ai',
+    text: `⚠️ ${msg}`,
+    timestamp: new Date()
+  });
+  this.isLoading = false;
+}
     });
   }
 

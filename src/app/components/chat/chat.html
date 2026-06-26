@@ -31,9 +31,11 @@
         >
           <span class="avatar">{{ msg.role === 'user' ? '🧑' : '🤖' }}</span>
           <div class="message-text">
-            <p>{{ msg.text }}</p>
-            <span class="timestamp">{{ msg.timestamp | date:'shortTime' }}</span>
-          </div>
+  <!-- User messages: plain text. AI messages: rendered markdown -->
+  <p *ngIf="msg.role === 'user'">{{ msg.text }}</p>
+  <div *ngIf="msg.role === 'ai'" [innerHTML]="msg.html"></div>
+  <span class="timestamp">{{ msg.timestamp | date:'shortTime' }}</span>
+</div>
         </div>
       </div>
 

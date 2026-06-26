@@ -56,6 +56,7 @@ export class Upload {
     this.pdfService.uploadPdf(this.selectedFile).subscribe({
       next: (response) => {
         this.pdfService.setExtractedText(response.text, response.filename);
+        sessionStorage.removeItem('chatHistory');
         this.successMessage = `✅ "${response.filename}" uploaded! ${response.characterCount.toLocaleString()} characters extracted.`;
         this.isLoading = false;
         this.selectedFile = null;

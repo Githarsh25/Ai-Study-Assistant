@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class PdfService {
 
-  private backendUrl = 'https://ai-study-assistant-backend-375exeycj-githarsh25s-projects.vercel.app' ;
+  private backendUrl = 'https://ai-study-assistant-backend-alpha.vercel.app/' ;
   private extractedText: string = '';
   private uploadedFileName: string = '';
 

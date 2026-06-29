@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class Gemini {
 
-  private backendUrl = 'http://localhost:3000';
+  private backendUrl = 'https://ai-study-assistant-backend-375exeycj-githarsh25s-projects.vercel.app' ;
 
   constructor(private http: HttpClient) {}
 

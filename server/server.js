@@ -9,8 +9,12 @@ const app = express();
 const PORT = 3000;
 
 // Allow Angular dev server (port 4200) to call this backend
-app.use(cors({ origin: 'http://localhost:4200' }));
-
+app.use(cors({
+  origin: [
+    'http://localhost:4200',
+    'https://ai-stud-asst.netlify.app'
+  ]
+}));
 // Allow the server to understand JSON request bodies
 app.use(express.json());
 
